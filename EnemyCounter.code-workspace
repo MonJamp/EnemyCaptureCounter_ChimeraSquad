@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "D:/Games/Steam/steamapps/common/XCOM-Chimera-Squad-SDK/Development/Src"
+		},
+		{
+			"path": "D:/Games/Steam/steamapps/common/XCOM-Chimera-Squad-SDK/XComGame/Config"
+		},
+		{
+			"path": "D:/Games/Steam/steamapps/common/XCOM-Chimera-Squad-SDK/XComGame/Localization/INT"
+		}
+	],
+	"settings": {
+		"conf.Paths.XCOM-SDKInstallPath": "D:\\Games\\Steam\\steamapps\\common\\XCOM-Chimera-Squad-SDK",
+		"conf.Paths.GameInstallPath": "E:\\Games\\Steam\\steamapps\\common\\XCOM-Chimera-Squad"
+	}
+}

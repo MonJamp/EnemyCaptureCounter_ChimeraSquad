@@ -1,0 +1,10 @@
+{
+  "publishingID": 2075871180,
+  "Title": "Enemy Capture Counter",
+  "Description": "Displays counters which show how many enemy units have been captured, are unconscious, or killed.\n\nThe capture counter updates at the end of the encounter since it's possible to kill unconscious enemies with grenades.",
+  "Tags": [
+    "UI",
+    "QoL"
+  ],
+  "Visibility": true
+}
