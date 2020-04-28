@@ -1,17 +1,9 @@
-# EnemyCounter README
+# Enemy Capture Counter mod for Chimera Squad
 
-This is the README for the XCOM mod EnemyCounter. After writing up a brief description, we recommend including the following sections.
+This mod shows counters for units captured, unconscious, or killed during encounters.
 
-## Features
+## Building
 
-Describe specific features of your mod. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your mod project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Here is some tip related to the mod.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Install Xcom: Chimera Squad development tools and setup VSCode according to the quick start guide
+- Open the workspace file in VSCode
+- Run the command `XCom-SDK-CompileScripts`
