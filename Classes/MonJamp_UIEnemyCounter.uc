@@ -30,30 +30,31 @@ event OnInit(UIScreen Screen)
     UpdateCounters();
     
     // Setup UI
-    PosX = 400;
-    PosY = 10;
+    PosX = -135;
+    PosY = -145;
 
     TacticalScreen = UITacticalHUD(Screen);
 
     CapturedText = Screen.Spawn(class'UIText', TacticalScreen);
     CapturedText.InitText();
-    CapturedText.SetText("Captured: 0");
+    //CapturedText.SetText("Captured: 0");
+    CapturedText.SetHTMLText(GetHTMLString("Captured: 0", 12));
     // TODO: Is there a way to anchor off other UI elements?
-    CapturedText.AnchorTopCenter();
+    CapturedText.AnchorBottomRIght();
     CapturedText.SetPosition(PosX, PosY);
     CapturedText.SetColor("0x00C853");
 
     UnconsciousText = Screen.Spawn(class'UIText', TacticalScreen);
     UnconsciousText.InitText();
-    UnconsciousText.SetText("Unconscious: 0");
-    UnconsciousText.AnchorTopCenter();
+    UnconsciousText.SetHTMLText(GetHTMLString("Unconscious: 0", 12));
+    UnconsciousText.AnchorBottomRIght();
     UnconsciousText.SetPosition(PosX, PosY + CapturedText.Height);
     UnconsciousText.SetColor("0xFFC300");
     
     KilledText = Screen.Spawn(class'UIText', TacticalScreen);
     KilledText.InitText();
-    KilledText.SetText("Killed: 0");
-    KilledText.AnchorTopCenter();
+    KilledText.SetHTMLText(GetHTMLString("Killed: 0", 12));
+    KilledText.AnchorBottomRIght();
     KilledText.SetPosition(PosX, UnconsciousText.Y + UnconsciousText.Height);
     KilledText.SetColor("0xC70039");
 
@@ -181,21 +182,34 @@ function ShowCounters()
     KilledText.Show();
 }
 
+function string GetHTMLString(string in_str, int fontSize)
+{
+    local string out_str;
+
+    out_str = "<font sizs ='";
+    out_str $= string(FontSize);
+    out_str $= "'>";
+    out_str $= in_str;
+    out_str $= "</font>";
+
+    return out_str;
+}
+
 function RefreshDisplayText()
 {
     local string str;
 
     str = "Captured: ";
     str $= string(NumCaptured); // String concatenation in unreal engine
-    CapturedText.SetText(str);
+    CapturedText.SetHTMLText(GetHTMLString(str, 12));
 
     str = "Unconscious: ";
     str $= string(NumUnconscious);
-    UnconsciousText.SetText(str);
+    UnconsciousText.SetHTMLText(GetHTMLString(str, 12));
 
     str = "Killed: ";
     str $= string(NumKilled);
-    KilledText.SetText(str);
+    KilledText.SetHTMLText(GetHTMLString(str, 12));
 }
 
 defaultproperties
