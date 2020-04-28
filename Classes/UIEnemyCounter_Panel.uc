@@ -1,12 +1,4 @@
-//---------------------------------------------------------------------------------------
-//  FILE:   MonJamp_UIEnemyCounter.uc
-//           
-//	The X2DownloadableContentInfo class provides basic hooks into XCOM gameplay events. 
-//  Ex. behavior when the player creates a new campaign or loads a saved game.
-//  
-//---------------------------------------------------------------------------------------
-
-class MonJamp_UIEnemyCounter extends UIScreenListener;
+class UIEnemyCounter_Panel extends UIPanel;
 
 var UIText CapturedText;
 var UIText UnconsciousText;
@@ -15,14 +7,13 @@ var int NumCaptured;
 var int NumUnconscious;
 var int NumKilled;
 
-// This event is triggered after a screen is initialized. This is called after
-// the visuals (if any) are loaded in Flash.
-event OnInit(UIScreen Screen)
+simulated function UIPanel InitPanel(optional name InitName, optional name InitLibID)
 {
-
     local UITacticalHUD TacticalScreen;
     local float PosX;
     local float PosY;
+
+    super.InitPanel(InitName, InitLibID);
 
     `log("MonJamp_UIEnemyCounter::OnInit");
 
@@ -35,7 +26,7 @@ event OnInit(UIScreen Screen)
 
     TacticalScreen = UITacticalHUD(Screen);
 
-    CapturedText = Screen.Spawn(class'UIText', TacticalScreen);
+    CapturedText = Spawn(class'UIText', TacticalScreen);
     CapturedText.InitText();
     //CapturedText.SetText("Captured: 0");
     CapturedText.SetHTMLText(GetHTMLString("Captured: 0", 12));
@@ -44,14 +35,14 @@ event OnInit(UIScreen Screen)
     CapturedText.SetPosition(PosX, PosY);
     CapturedText.SetColor("0x00C853");
 
-    UnconsciousText = Screen.Spawn(class'UIText', TacticalScreen);
+    UnconsciousText = Spawn(class'UIText', TacticalScreen);
     UnconsciousText.InitText();
     UnconsciousText.SetHTMLText(GetHTMLString("Unconscious: 0", 12));
     UnconsciousText.AnchorBottomRIght();
     UnconsciousText.SetPosition(PosX, PosY + CapturedText.Height);
     UnconsciousText.SetColor("0xFFC300");
     
-    KilledText = Screen.Spawn(class'UIText', TacticalScreen);
+    KilledText = Spawn(class'UIText', TacticalScreen);
     KilledText.InitText();
     KilledText.SetHTMLText(GetHTMLString("Killed: 0", 12));
     KilledText.AnchorBottomRIght();
@@ -59,11 +50,14 @@ event OnInit(UIScreen Screen)
     KilledText.SetColor("0xC70039");
 
     RefreshDisplayText();
+
+    return self;
 }
+
 // This event is triggered after a screen receives focus.
 // This happens when another screen is on top of this screen, and that top screen
 // is removed, the focus will call back down to this screen and trigger OnReceiveFocus.
-event OnReceiveFocus(UIScreen Screen)
+simulated function OnReceiveFocus()
 {
     `log("MonJamp_UIEnemyCounter::OnReceiveFocus");
 
@@ -73,14 +67,14 @@ event OnReceiveFocus(UIScreen Screen)
 // This event is triggered after a screen loses focus.
 // This happens when another screen is added to the stack on top of this screen,
 // which triggers the current screen to lose focus and receive the OnLoseFocus event.
-event OnLoseFocus(UIScreen Screen)
+simulated function OnLoseFocus()
 {
     `log("MonJamp_UIEnemyCounter::OnLoseFocus");
 
     HideCounters();
 }
 // This event is triggered when a screen is removed.
-event OnRemoved(UIScreen Screen)
+simulated function OnRemoved()
 {
     `log("MonJamp_UIEnemyCounter::OnRemoved");
 
@@ -210,12 +204,4 @@ function RefreshDisplayText()
     str = "Killed: ";
     str $= string(NumKilled);
     KilledText.SetHTMLText(GetHTMLString(str, 12));
-}
-
-defaultproperties
-{
-    // specify the class you want to notify your new object.
-    ScreenClass = class'UITacticalHUD';
-    // Leaving ScreenClass assigned to none will cause *every* screen to trigger
-    // its event signals on this listener.
 }
