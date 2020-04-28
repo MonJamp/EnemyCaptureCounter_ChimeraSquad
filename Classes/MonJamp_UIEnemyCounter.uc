@@ -19,9 +19,12 @@ var int NumKilled;
 // the visuals (if any) are loaded in Flash.
 event OnInit(UIScreen Screen)
 {
+
     local UITacticalHUD TacticalScreen;
     local float PosX;
     local float PosY;
+
+    `log("MonJamp_UIEnemyCounter::OnInit");
 
     RegisterForEvents();
     UpdateCounters();
@@ -61,6 +64,8 @@ event OnInit(UIScreen Screen)
 // is removed, the focus will call back down to this screen and trigger OnReceiveFocus.
 event OnReceiveFocus(UIScreen Screen)
 {
+    `log("MonJamp_UIEnemyCounter::OnReceiveFocus");
+
     ShowCounters();
     RefreshDisplayText();
 }
@@ -69,17 +74,23 @@ event OnReceiveFocus(UIScreen Screen)
 // which triggers the current screen to lose focus and receive the OnLoseFocus event.
 event OnLoseFocus(UIScreen Screen)
 {
+    `log("MonJamp_UIEnemyCounter::OnLoseFocus");
+
     HideCounters();
 }
 // This event is triggered when a screen is removed.
 event OnRemoved(UIScreen Screen)
 {
+    `log("MonJamp_UIEnemyCounter::OnRemoved");
+
     HideCounters();
 }
 
 function RegisterForEvents()
 {
     local Object SelfObject;
+
+    `log("MonJamp_UIEnemyCounter::RegisterForEvents");
 
     // Call UpdateCounter every time a unit is unconscious, dies, or is captured
     SelfObject = self;
@@ -93,6 +104,8 @@ function RegisterForEvents()
 
 function EventListenerReturn UpdateUI(Object EventData, Object EventSource, XComGameState GameState, Name Event, Object CallbackData)
 {
+    `log("MonJamp_UIEnemyCounter::UpdateUI");
+
     UpdateCounters();
     RefreshDisplayText();
 
@@ -101,6 +114,8 @@ function EventListenerReturn UpdateUI(Object EventData, Object EventSource, XCom
 
 function EventListenerReturn BeginBreachMode(Object EventData, Object EventSource, XComGameState GameState, Name Event, Object CallbackData)
 {
+    `log("MonJamp_UIEnemyCounter::BeginBreachMode");
+
     // Update counters before hiding
     UpdateCounters();
     RefreshDisplayText();
@@ -111,6 +126,8 @@ function EventListenerReturn BeginBreachMode(Object EventData, Object EventSourc
 
 function EventListenerReturn EndBreachMode(Object EventData, Object EventSource, XComGameState GameState, Name Event, Object CallbackData)
 {
+    `log("MonJamp_UIEnemyCounter::EndBreachMode");
+
     UpdateCounters();
     RefreshDisplayText();
     ShowCounters();
@@ -123,6 +140,8 @@ function UpdateCounters()
     local XComGameStateHistory History;
     local XComGameState_BattleData BattleData;
     local XComGameState_Unit Unit;
+
+    `log("MonJamp_UIEnemyCounter::UpdateCounters");
 
     History = `XCOMHISTORY;
     BattleData = XComGameState_BattleData(History.GetSingleGameStateObjectForClass(class'XComGameState_BattleData'));
