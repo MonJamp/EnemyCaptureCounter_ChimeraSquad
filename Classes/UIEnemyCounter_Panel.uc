@@ -1,5 +1,6 @@
 class UIEnemyCounter_Panel extends UIPanel;
 
+var UIBGBox bg;
 var UIText CapturedText;
 var UIText UnconsciousText;
 var UIText KilledText;
@@ -12,6 +13,8 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     local UITacticalHUD TacticalScreen;
     local float PosX;
     local float PosY;
+    local float Padding;
+    local float TextPosX;
 
     super.InitPanel(InitName, InitLibID);
 
@@ -21,10 +24,18 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     UpdateCounters();
     
     // Setup UI
-    PosX = -135;
-    PosY = -145;
+    PosX = -140;
+    PosY = -140;
+    Padding = 5;
+    TextPosX = PosX + Padding;
 
     TacticalScreen = UITacticalHUD(Screen);
+
+    bg = Spawn(class'UIBGBox', TacticalScreen);
+    bg.InitPanel('');
+    bg.AnchorBottomRight();
+    bg.SetPosition(PosX, PosY);
+    bg.SetSize(135, 32*3);
 
     CapturedText = Spawn(class'UIText', TacticalScreen);
     CapturedText.InitText();
@@ -32,22 +43,22 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     CapturedText.SetHTMLText(GetHTMLString("Captured: 0", 12));
     // TODO: Is there a way to anchor off other UI elements?
     CapturedText.AnchorBottomRIght();
-    CapturedText.SetPosition(PosX, PosY);
     CapturedText.SetColor("0x00C853");
+    CapturedText.SetPosition(TextPosX, bg.Y + Padding);
 
     UnconsciousText = Spawn(class'UIText', TacticalScreen);
     UnconsciousText.InitText();
     UnconsciousText.SetHTMLText(GetHTMLString("Unconscious: 0", 12));
     UnconsciousText.AnchorBottomRIght();
-    UnconsciousText.SetPosition(PosX, PosY + CapturedText.Height);
     UnconsciousText.SetColor("0xFFC300");
+    UnconsciousText.SetPosition(TextPosX, CapturedText.Y + CapturedText.Height);
     
     KilledText = Spawn(class'UIText', TacticalScreen);
     KilledText.InitText();
     KilledText.SetHTMLText(GetHTMLString("Killed: 0", 12));
     KilledText.AnchorBottomRIght();
-    KilledText.SetPosition(PosX, UnconsciousText.Y + UnconsciousText.Height);
     KilledText.SetColor("0xC70039");
+    KilledText.SetPosition(TextPosX, UnconsciousText.Y + UnconsciousText.Height);
 
     RefreshDisplayText();
 
