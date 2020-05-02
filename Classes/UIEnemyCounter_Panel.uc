@@ -192,7 +192,9 @@ function ShowCounters()
     bg.Show();
     CapturedText.Show();
     UnconsciousText.Show();
-    KilledText.Show();
+
+    if(KillCounterEnabled)
+        KilledText.Show();
 }
 
 function string GetHTMLString(string in_str, int fontSize)
