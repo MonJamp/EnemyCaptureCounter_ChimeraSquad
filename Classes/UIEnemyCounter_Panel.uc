@@ -44,7 +44,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     CapturedText = Spawn(class'UIText', TacticalScreen);
     CapturedText.InitText();
     //CapturedText.SetText("Captured: 0");
-    CapturedText.SetHTMLText(GetHTMLString("Captured: 0", 12));
+    CapturedText.SetHTMLText(GetHTMLString("Captured: 0", 18));
     // TODO: Is there a way to anchor off other UI elements?
     CapturedText.AnchorBottomRIght();
     CapturedText.SetColor("0x00C853");
@@ -53,7 +53,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
 
     UnconsciousText = Spawn(class'UIText', TacticalScreen);
     UnconsciousText.InitText();
-    UnconsciousText.SetHTMLText(GetHTMLString("Unconscious: 0", 12));
+    UnconsciousText.SetHTMLText(GetHTMLString("Unconscious: 0", 18));
     UnconsciousText.AnchorBottomRIght();
     UnconsciousText.SetColor("0xFFC300");
     UnconsciousText.SetPosition(TextPosX, CapturedText.Y + CapturedText.Height);
@@ -61,7 +61,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     KillCounterEnabled = true;
     KilledText = Spawn(class'UIText', TacticalScreen);
     KilledText.InitText();
-    KilledText.SetHTMLText(GetHTMLString("Killed: 0", 12));
+    KilledText.SetHTMLText(GetHTMLString("Killed: 0", 18));
     KilledText.AnchorBottomRIght();
     KilledText.SetColor("0xC70039");
     KilledText.SetPosition(TextPosX, UnconsciousText.Y + UnconsciousText.Height);
@@ -197,7 +197,7 @@ function string GetHTMLString(string in_str, int fontSize)
 {
     local string out_str;
 
-    out_str = "<font sizs ='";
+    out_str = "<font size ='";
     out_str $= string(FontSize);
     out_str $= "'>";
     out_str $= in_str;
@@ -212,16 +212,16 @@ function RefreshDisplayText()
 
     str = "Captured: ";
     str $= string(NumCaptured); // String concatenation in unreal engine
-    CapturedText.SetHTMLText(GetHTMLString(str, 12));
+    CapturedText.SetHTMLText(GetHTMLString(str, 18));
 
     str = "Unconscious: ";
     str $= string(NumUnconscious);
-    UnconsciousText.SetHTMLText(GetHTMLString(str, 12));
+    UnconsciousText.SetHTMLText(GetHTMLString(str, 18));
 
     KilledText.Show();
     str = "Killed: ";
     str $= string(NumKilled);
-    KilledText.SetHTMLText(GetHTMLString(str, 12));
+    KilledText.SetHTMLText(GetHTMLString(str, 18));
 }
 
 function OnClick(UIPanel Panel, int Cmd)
