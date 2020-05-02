@@ -7,12 +7,14 @@ var UIText KilledText;
 var int NumCaptured;
 var int NumUnconscious;
 var int NumKilled;
+var bool KillCounterEnabled;
+var float PosX;
+var float PosY;
+var float CapturedTextY;
 
 simulated function UIPanel InitPanel(optional name InitName, optional name InitLibID)
 {
     local UITacticalHUD TacticalScreen;
-    local float PosX;
-    local float PosY;
     local float Padding;
     local float TextPosX;
 
@@ -25,7 +27,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     
     // Setup UI
     PosX = -140;
-    PosY = -140;
+    PosY = -135;
     Padding = 5;
     TextPosX = PosX + Padding;
 
@@ -36,6 +38,8 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     bg.AnchorBottomRight();
     bg.SetPosition(PosX, PosY);
     bg.SetSize(135, 32*3);
+    bg.ProcessMouseEvents(OnMouseEventDelegate);
+    bg.OnMouseEventDelegate = OnClick;
 
     CapturedText = Spawn(class'UIText', TacticalScreen);
     CapturedText.InitText();
@@ -44,6 +48,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     // TODO: Is there a way to anchor off other UI elements?
     CapturedText.AnchorBottomRIght();
     CapturedText.SetColor("0x00C853");
+    CapturedTextY = bg.Y + Padding;
     CapturedText.SetPosition(TextPosX, bg.Y + Padding);
 
     UnconsciousText = Spawn(class'UIText', TacticalScreen);
@@ -53,6 +58,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     UnconsciousText.SetColor("0xFFC300");
     UnconsciousText.SetPosition(TextPosX, CapturedText.Y + CapturedText.Height);
     
+    KillCounterEnabled = true;
     KilledText = Spawn(class'UIText', TacticalScreen);
     KilledText.InitText();
     KilledText.SetHTMLText(GetHTMLString("Killed: 0", 12));
@@ -212,7 +218,75 @@ function RefreshDisplayText()
     str $= string(NumUnconscious);
     UnconsciousText.SetHTMLText(GetHTMLString(str, 12));
 
+    KilledText.Show();
     str = "Killed: ";
     str $= string(NumKilled);
     KilledText.SetHTMLText(GetHTMLString(str, 12));
+}
+
+function OnClick(UIPanel Panel, int Cmd)
+{
+    switch(cmd)
+    {
+        case class'UIUtilities_Input'.const.FXS_L_MOUSE_UP:
+            `log("EnemyCounter_Panel::OnClick");
+            ToggleKillCounter();
+            break;
+    }
+}
+
+function ToggleKillCounter()
+{
+
+    `log("Counter Toggled!");
+
+    KillCounterEnabled = !KillCounterEnabled;
+    
+    if(!KillCounterEnabled)
+    {
+        bg.SetHeight(32*2);
+        bg.SetY(bg.Y + 32);
+        CapturedText.SetY(CapturedText.Y + 32);
+        UnconsciousText.SetY(UnconsciousText.Y + 32);
+        KilledText.Hide();
+
+        /*
+        bg.AnimateHeight(32*2);
+        NewY = Movie.GetScreenResolution().Y + bg.Y + 32;
+        bg.AnimateY(NewY);
+        NewY += 5 + 32;
+        `log("CapturedText.Y = " $ string(NewY));
+        CapturedText.AnimateY(NewY);
+        CapturedText.MoveToHighestDepth();
+        NewY += 32;
+        UnconsciousText.AnimateY(NewY);
+        KilledText.AnimateOut(0);
+        */
+    }
+    else
+    {
+        bg.SetHeight(32*3);
+        bg.SetY(bg.Y - 32);
+        CapturedText.SetY(CapturedText.Y - 32);
+        UnconsciousText.SetY(UnconsciousText.Y - 32);
+        KilledText.Show();
+
+        /*
+        bg.AnimateHeight(32*3);
+        NewY = Movie.GetScreenResolution().Y + bg.Y - 32;
+        bg.AnimateY(NewY);
+        NewY += 5 - 32;
+        CapturedText.AnimateY(NewY);
+        CapturedText.MoveToHighestDepth();
+        NewY += 32;
+        UnconsciousText.AnimateY(NewY);
+        KilledText.AnimateIn(0);
+        */
+    }
+}
+
+simulated function UIPanel ProcessMouseEvents(optional delegate<OnMouseEventDelegate> MouseEventDelegate)
+{
+	OnMouseEventDelegate = MouseEventDelegate;
+	return self;
 }
