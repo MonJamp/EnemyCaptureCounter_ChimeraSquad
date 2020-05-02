@@ -181,6 +181,7 @@ function UpdateCounters()
 
 function HideCounters()
 {
+    bg.Hide();
     CapturedText.Hide();
     UnconsciousText.Hide();
     KilledText.Hide();
@@ -188,6 +189,7 @@ function HideCounters()
 
 function ShowCounters()
 {
+    bg.Show();
     CapturedText.Show();
     UnconsciousText.Show();
     KilledText.Show();
