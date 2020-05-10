@@ -1,0 +1,4 @@
+[UIEnemyCounter_Panel]
+str_captured="захваченный: "
+str_unconscious="Без сознания: "
+str_killed="убитый: "
