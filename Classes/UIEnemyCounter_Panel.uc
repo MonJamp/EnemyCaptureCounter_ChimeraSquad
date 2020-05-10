@@ -6,6 +6,7 @@ var localized string str_killed;
 var int text_size;
 
 var UIBGBox bg;
+var UIBGBox bg_line;
 var UIText CapturedText;
 var UIText UnconsciousText;
 var UIText KilledText;
@@ -54,6 +55,12 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     bg.SetSize(135, 32*3);
     bg.ProcessMouseEvents(OnMouseEventDelegate);
     bg.OnMouseEventDelegate = OnClick;
+
+    bg_line = Spawn(class'UIBGBox', TacticalScreen);
+    bg_line.InitPanel('', class'UIUtilities_Controls'.const.MC_X2BackgroundShading);
+    bg_line.AnchorBottomRight();
+    bg_line.SetPosition(PosX, PosY + 32);
+    bg_line.SetSize(135, 32);
 
     CapturedText = Spawn(class'UIText', TacticalScreen);
     CapturedText.InitText();
@@ -196,6 +203,7 @@ function UpdateCounters()
 function HideCounters()
 {
     bg.Hide();
+    bg_line.Hide();
     CapturedText.Hide();
     UnconsciousText.Hide();
     KilledText.Hide();
@@ -204,6 +212,7 @@ function HideCounters()
 function ShowCounters()
 {
     bg.Show();
+    bg_line.Show();
     CapturedText.Show();
     UnconsciousText.Show();
 
@@ -264,6 +273,7 @@ function ToggleKillCounter()
     {
         bg.SetHeight(32*2);
         bg.SetY(bg.Y + 32);
+        bg_line.SetY(bg_line.Y + 32);
         CapturedText.SetY(CapturedText.Y + 32);
         UnconsciousText.SetY(UnconsciousText.Y + 32);
         KilledText.Hide();
@@ -285,6 +295,7 @@ function ToggleKillCounter()
     {
         bg.SetHeight(32*3);
         bg.SetY(bg.Y - 32);
+        bg_line.SetY(bg_line.Y - 32);
         CapturedText.SetY(CapturedText.Y - 32);
         UnconsciousText.SetY(UnconsciousText.Y - 32);
         KilledText.Show();
