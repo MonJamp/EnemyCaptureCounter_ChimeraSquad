@@ -53,6 +53,7 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     bg.AnchorBottomRight();
     bg.SetPosition(PosX, PosY);
     bg.SetSize(135, 32*3);
+    bg.SetAlpha(80);
     bg.ProcessMouseEvents(OnMouseEventDelegate);
     bg.OnMouseEventDelegate = OnClick;
 
