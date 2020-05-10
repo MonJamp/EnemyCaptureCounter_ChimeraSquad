@@ -3,6 +3,7 @@ class UIEnemyCounter_Panel extends UIPanel;
 var localized string str_captured;
 var localized string str_unconscious;
 var localized string str_killed;
+var int text_size;
 
 var UIBGBox bg;
 var UIText CapturedText;
@@ -30,6 +31,15 @@ simulated function UIPanel InitPanel(optional name InitName, optional name InitL
     UpdateCounters();
     
     // Setup UI
+    if(GetLanguage() == "RUS")
+    {
+        text_size = 16;
+    }
+    else
+    {
+        text_size = 18;
+    }
+    
     PosX = -140;
     PosY = -135;
     Padding = 5;
@@ -220,16 +230,16 @@ function RefreshDisplayText()
 
     str = str_captured;
     str $= string(NumCaptured); // String concatenation in unreal engine
-    CapturedText.SetHTMLText(GetHTMLString(str, 18));
+    CapturedText.SetHTMLText(GetHTMLString(str, text_size));
 
     str = str_unconscious;
     str $= string(NumUnconscious);
-    UnconsciousText.SetHTMLText(GetHTMLString(str, 18));
+    UnconsciousText.SetHTMLText(GetHTMLString(str, text_size));
 
     KilledText.Show();
     str = str_killed;
     str $= string(NumKilled);
-    KilledText.SetHTMLText(GetHTMLString(str, 18));
+    KilledText.SetHTMLText(GetHTMLString(str, text_size));
 }
 
 function OnClick(UIPanel Panel, int Cmd)
