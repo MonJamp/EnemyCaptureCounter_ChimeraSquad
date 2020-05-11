@@ -246,10 +246,17 @@ function RefreshDisplayText()
     str $= string(NumUnconscious);
     UnconsciousText.SetHTMLText(GetHTMLString(str, text_size));
 
-    KilledText.Show();
-    str = str_killed;
-    str $= string(NumKilled);
-    KilledText.SetHTMLText(GetHTMLString(str, text_size));
+    if(KillCounterEnabled)
+    {
+        KilledText.Show();
+        str = str_killed;
+        str $= string(NumKilled);
+        KilledText.SetHTMLText(GetHTMLString(str, text_size));
+    }
+    else
+    {
+        KilledText.Hide();
+    }
 }
 
 function OnClick(UIPanel Panel, int Cmd)
@@ -300,6 +307,7 @@ function ToggleKillCounter()
         CapturedText.SetY(CapturedText.Y - 32);
         UnconsciousText.SetY(UnconsciousText.Y - 32);
         KilledText.Show();
+        RefreshDisplayText();
 
         /*
         bg.AnimateHeight(32*3);
